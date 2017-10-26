@@ -2,7 +2,7 @@ import {Directive, EmbeddedViewRef, TemplateRef, ViewContainerRef} from '@angula
 import {YahteePopoverContainerDirective} from './yahtee-popover-container.directive'
 
 @Directive({
-  selector: '[yahteePopoverContentDirective]',
+  selector: '[yahteePopoverContent]',
 })
 export class YahteePopoverContentDirective {
 

@@ -3,14 +3,14 @@ import {YahteePopoverCtaDirective} from './yahtee-popover-cta.directive'
 import {YahteePopoverContentDirective} from './yahtee-popover-content.directive'
 
 @Directive({
-  selector: 'yahtee-popover-container,[yahtee-popover-container],[yahteePopoverContainerDirective]',
-  exportAs: 'yahteePopoverContainerDirective',
+  selector: 'yahtee-popover-container,[yahtee-popover-container],[yahteePopoverContainer]',
+  exportAs: 'yahteePopoverContainer',
 })
 export class YahteePopoverContainerDirective implements OnDestroy {
 
-  private expands: HTMLElement[] = []
+  private expands: HTMLElement[] = [] // not used atm
 
-  private ctaDir: YahteePopoverCtaDirective | null
+  private ctaDirs: YahteePopoverCtaDirective[] = [] //  not used atm
   private contentDir: YahteePopoverContentDirective | null
 
   private isOpened: boolean = false
@@ -32,7 +32,7 @@ export class YahteePopoverContainerDirective implements OnDestroy {
   }
 
   public registerCta(cta: YahteePopoverCtaDirective): void {
-    this.ctaDir = cta
+    this.ctaDirs.push(cta)
   }
 
   public registerContent(content: YahteePopoverContentDirective): void {
