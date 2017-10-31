@@ -1,4 +1,6 @@
 export {YahteePopoverModule} from './src/yahtee-popover.module'
 export {YahteePopoverContainerDirective} from './src/yahtee-popover-container.directive'
+export {YahteePopoverContentComponent} from './src/yahtee-popover-content.directive'
 export {YahteePopoverContentDirective} from './src/yahtee-popover-content.directive'
 export {YahteePopoverCtaDirective} from './src/yahtee-popover-cta.directive'
+export {PositioningService} from './src/positioning.service'

@@ -1,6 +1,7 @@
-import {Directive, ElementRef, EventEmitter, NgZone, OnDestroy, Output} from '@angular/core'
+import {Directive, ElementRef, EventEmitter, Input, NgZone, OnDestroy, Output} from '@angular/core'
 import {YahteePopoverCtaDirective} from './yahtee-popover-cta.directive'
-import {YahteePopoverContentDirective} from './yahtee-popover-content.directive'
+import {YahteePopoverContent, YahteePopoverContentDirective} from './yahtee-popover-content.directive'
+import {PositioningService} from './positioning.service'
 
 @Directive({
   selector: 'yahtee-popover-container,[yahtee-popover-container],[yahteePopoverContainer]',
@@ -11,9 +12,19 @@ export class YahteePopoverContainerDirective implements OnDestroy {
   private expands: HTMLElement[] = [] // not used atm
 
   private ctaDirs: YahteePopoverCtaDirective[] = [] //  not used atm
-  private contentDir: YahteePopoverContentDirective | null
+  private contentDir: YahteePopoverContent | null
 
   private isOpened: boolean = false
+
+  @Input() public position: string = 'bottom-right'
+
+  public get isOpen() {
+    return this.isOpened
+  }
+
+  public get isClosed() {
+    return !this.isOpened
+  }
 
   @Output() public popoverClose = new EventEmitter<void>()
 
@@ -35,18 +46,18 @@ export class YahteePopoverContainerDirective implements OnDestroy {
     this.ctaDirs.push(cta)
   }
 
-  public registerContent(content: YahteePopoverContentDirective): void {
+  public registerContent(content: YahteePopoverContent): void {
     this.contentDir = content
   }
 
-  public open() {
+  public open(): void {
     if (!this.isOpened) {
-      this.contentDir!.create()
+      this.contentDir!.create(this.positioning.getStyles(this.position))
     }
     this.isOpened = true
   }
 
-  public close() {
+  public close(): void {
     if (this.isOpened) {
       this.contentDir!.destroy()
     }
@@ -54,8 +65,17 @@ export class YahteePopoverContainerDirective implements OnDestroy {
     this.popoverClose.emit()
   }
 
+  public toggle(): void {
+    if (this.isOpened) {
+      this.close()
+    } else {
+      this.open()
+    }
+  }
+
   constructor(private elRef: ElementRef,
-              private ngZone: NgZone) {
+              private ngZone: NgZone,
+              private positioning: PositioningService) {
     ngZone.runOutsideAngular(() => {
       if (window && typeof window.addEventListener === 'function') {
         window.addEventListener('click', this.onClick, true)
