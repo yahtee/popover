@@ -1,6 +1,6 @@
 {
   "name": "yahtee-popover",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A util Angular module for creating popovers",
   "main": "./bundles/yahtee-popover.umd.js",
   "module": "./yahtee-popover.es5.js",
