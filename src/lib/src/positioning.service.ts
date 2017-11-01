@@ -57,7 +57,7 @@ export class PositioningService {
   }
 
   private map(string: string): [Position, Position] {
-    return this.mapSpecToPairOfStrings(string).map(str => this.mapStringToEnum(str))
+    return this.mapSpecToPairOfStrings(string).map(str => this.mapStringToEnum(str)) as [Position, Position]
   }
 
   public getStyles(spec: string): Style {
