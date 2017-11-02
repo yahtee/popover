@@ -1,7 +1,8 @@
-import {Directive, ElementRef, EventEmitter, Input, NgZone, OnDestroy, Output} from '@angular/core'
+import {Directive, ElementRef, EventEmitter, Inject, Input, NgZone, OnDestroy, Output, PLATFORM_ID} from '@angular/core'
 import {YahteePopoverCtaDirective} from './yahtee-popover-cta.directive'
-import {YahteePopoverContent, YahteePopoverContentDirective} from './yahtee-popover-content.directive'
+import {YahteePopoverContent} from './yahtee-popover-content.directive'
 import {PositioningService} from './positioning.service'
+import {isPlatformBrowser} from '@angular/common'
 
 @Directive({
   selector: 'yahtee-popover-container,[yahtee-popover-container],[yahteePopoverContainer]',
@@ -75,17 +76,22 @@ export class YahteePopoverContainerDirective implements OnDestroy {
 
   constructor(private elRef: ElementRef,
               private ngZone: NgZone,
-              private positioning: PositioningService) {
+              private positioning: PositioningService,
+              @Inject(PLATFORM_ID) private platformId: any) {
     ngZone.runOutsideAngular(() => {
-      if (window && typeof window.addEventListener === 'function') {
-        window.addEventListener('click', this.onClick, true)
+      if (isPlatformBrowser(this.platformId)) {
+        if (window && typeof window.addEventListener === 'function') {
+          window.addEventListener('click', this.onClick, true)
+        }
       }
     })
   }
 
   public ngOnDestroy(): void {
-    if (window && typeof window.removeEventListener === 'function') {
-      window.removeEventListener('click', this.onClick, true)
+    if (isPlatformBrowser(this.platformId)) {
+      if (window && typeof window.removeEventListener === 'function') {
+        window.removeEventListener('click', this.onClick, true)
+      }
     }
   }
 
